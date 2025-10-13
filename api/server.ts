@@ -152,7 +152,7 @@ app.get("/api/framed-avatar/:username", async (req: Request, res: Response) => {
     const textPosition = ((req.query.textPosition as string) || "bottom").toLowerCase();
     
     // Emoji overlay parameters
-    const emojis = req.query.emojis as string | undefined;
+    const emojis = req.query.emojis ? decodeURIComponent(req.query.emojis as string) : undefined;
     const emojiSizeStr = (req.query.emojiSize as string) || "40";
     const emojiPosition = ((req.query.emojiPosition as string) || "top").toLowerCase();
 
@@ -584,6 +584,21 @@ app.get("/api/themes", (req: Request, res: Response) => {
 // Health check endpoint
 app.get("/api/health", (req: Request, res: Response) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
+});
+
+// Catch-all for invalid API routes
+app.use("/api/*", (req: Request, res: Response) => {
+  res.status(404).json({ error: "Not Found", message: "API endpoint not found." });
+});
+
+// Catch-all for SPA: serve index.html for non-API routes
+app.get("*", (req: Request, res: Response) => {
+  const indexPath = path.join(ASSET_BASE_PATH, "public", "index.html");
+  if (fs.existsSync(indexPath)) {
+    res.sendFile(indexPath);
+  } else {
+    res.status(404).json({ error: "Not Found", message: "Page not found." });
+  }
 });
 
 // Start server
