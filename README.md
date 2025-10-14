@@ -181,7 +181,7 @@ https://github-avatar-frame-api.onrender.com/api/framed-avatar/octocat?theme=bas
 <tr>
 <td>eternity</td>
 <td>light / circle / 0</td>
-<td><img src="https://github-avatar-frame-api.onrender.com/api/framed-avatar/octocat?theme=ocean&size=100&canvas=light&shape=circle&radius=0" width="80"></td>
+<td><img src="https://github-avatar-frame-api.onrender.com/api/framed-avatar/as?theme=ocean&size=100&canvas=light&shape=circle&radius=0" width="80"></td>
 <td>Classic eternity theme, light background, circular avatar</td>
 </tr>
 <tr>
@@ -193,7 +193,7 @@ https://github-avatar-frame-api.onrender.com/api/framed-avatar/octocat?theme=bas
 <tr>
 <td>base</td>
 <td>light / rounded / 20</td>
-<td><img src="https://github-avatar-frame-api.onrender.com/api/framed-avatar/octocat?theme=base&size=100&canvas=light&shape=rounded&radius=20" width="80"></td>
+<td><img src="https://github-avatar-frame-api.onrender.com/api/framed-avatar/octocat?theme=darkmode&size=100&canvas=light&shape=rounded&radius=20" width="80"></td>
 <td>Base theme, light background, rounded corners 20px</td>
 </tr>
 <tr>
