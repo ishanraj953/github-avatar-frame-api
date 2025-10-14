@@ -1169,73 +1169,77 @@ function App() {
             </div>
 
             {/* Control Group: Canvas & Shape */}
-            <div
-              className='control-group'
-              style={{ display: "flex", gap: "24px", marginBottom: "24px" }}>
-              <div style={{ flex: 1 }}>
-                <label
-                  style={{
-                    display: "block",
-                    fontSize: "14px",
-                    fontWeight: "600",
-                    color: colors.textPrimary,
-                    marginBottom: "8px",
-                  }}>
-                  Background Canvas (Param: `canvas`)
-                </label>
-                <div
-                  className='control-button-set'
-                  style={{ display: "flex", gap: "12px" }}>
-                  <ControlButton
-                    onClick={() => setCanvas("light")}
-                    isSelected={canvas === "light"}
-                    isDark={isDark}>
-                    <Sun size={18} /> Light
-                  </ControlButton>
-                  <ControlButton
-                    onClick={() => setCanvas("dark")}
-                    isSelected={canvas === "dark"}
-                    isDark={isDark}>
-                    <Moon size={18} /> Dark
-                  </ControlButton>
-                  {/*Transparent Button */}
-                  <ControlButton
-                    onClick={()=> setCanvas("transparent")}
-                    isSelected={canvas === "transparent"}
-                    isDark={isDark}>
-                      <Sparkles size={18}/> Transparent
-                    </ControlButton>
-                </div>
-              </div>
-              <div style={{ flex: 1 }}>
-                <label
-                  style={{
-                    display: "block",
-                    fontSize: "14px",
-                    fontWeight: "600",
-                    color: colors.textPrimary,
-                    marginBottom: "8px",
-                  }}>
-                  Avatar Shape (Param: `shape`)
-                </label>
-                <div
-                  className='control-button-set'
-                  style={{ display: "flex", gap: "12px" }}>
-                  <ControlButton
-                    onClick={() => setShape("circle")}
-                    isSelected={shape === "circle"}
-                    isDark={isDark}>
-                    <Circle size={18} /> Circle
-                  </ControlButton>
-                  <ControlButton
-                    onClick={() => setShape("rect")}
-                    isSelected={shape === "rect"}
-                    isDark={isDark}>
-                    <Square size={18} /> Square
-                  </ControlButton>
-                </div>
-              </div>
-            </div>
+             <div
+    className='control-group'
+    // REMOVED: display: "flex" and gap: "24px" to allow vertical stacking
+    style={{ marginBottom: "24px" }}>
+    {/* Background Canvas (Param: `canvas`) */}
+    <div style={{ flex: 1, marginBottom: "24px" }}>
+        <label
+            style={{
+                display: "block",
+                fontSize: "14px",
+                fontWeight: "600",
+                color: colors.textPrimary,
+                marginBottom: "8px",
+            }}>
+            Background Canvas (Param: `canvas`)
+        </label>
+        <div
+            className='control-button-set'
+            style={{ display: "flex", gap: "12px" }}>
+            <ControlButton
+                onClick={() => setCanvas("light")}
+                isSelected={canvas === "light"}
+                isDark={isDark}>
+                <Sun size={18} /> Light
+            </ControlButton>
+            <ControlButton
+                onClick={() => setCanvas("dark")}
+                isSelected={canvas === "dark"}
+                isDark={isDark}>
+                <Moon size={18} /> Dark
+            </ControlButton>
+            {/*Transparent Button */}
+            <ControlButton
+                onClick={()=> setCanvas("transparent")}
+                isSelected={canvas === "transparent"}
+                isDark={isDark}>
+                <Sparkles size={18}/> Transparent
+            </ControlButton>
+        </div>
+    </div>
+    {/* Avatar Shape (Param: `shape`) - Now appears below the Background Canvas */}
+    <div style={{ flex: 1 }}>
+        <label
+            style={{
+                display: "block",
+                fontSize: "14px",
+                fontWeight: "600",
+                color: colors.textPrimary,
+                marginBottom: "8px",
+            }}>
+            Avatar Shape (Param: `shape`)
+        </label>
+        <div
+            className='control-button-set'
+            style={{ display: "flex", gap: "12px" }}>
+            <ControlButton
+                onClick={() => setShape("circle")}
+                isSelected={shape === "circle"}
+                isDark={isDark}>
+                <Circle size={18} /> Circle
+            </ControlButton>
+            <ControlButton
+                onClick={() => setShape("rect")}
+                isSelected={shape === "rect"}
+                isDark={isDark}>
+                <Square size={18} /> Square
+            </ControlButton>
+        </div>
+      </div>
+  </div>
+    
             {/* Frame Style Control Group(Border Focus) */}
             <div style={{marginBottom: "24px"}}>
               <label
