@@ -267,10 +267,10 @@ function App() {
 
   // Progress Steps definition (using requested labels)
   const steps = [
-    { num: 1, label: "▀▄▀▄ Enter Username ▄▀▄▀", icon: Github },
-    { num: 2, label: "☆ ☆ 𝙲𝚑𝚘𝚘𝚜𝚎 𝚃𝚑𝚎𝚖𝚎 ☆ ☆", icon: Sparkles },
-    { num: 3, label: "🇦​🇩​🇯​🇺​🇸​🇹​ 🇸​🇪​🇹​🇹​🇮​🇳​🇬​🇸​", icon: Zap },
-    { num: 4, label: "▄︻┻ Generate ︻┳═─-", icon: Frame },
+    { num: 1, label: "Enter Username", icon: Github },
+    { num: 2, label: "Choose Theme", icon: Sparkles },
+    { num: 3, label: "Adjust Settings", icon: Zap },
+    { num: 4, label: "Generate", icon: Frame },
   ];
 
   // Detect system preference and set up listener
@@ -735,8 +735,7 @@ function App() {
                 margin: "0",
               }}
               data-aos="fade-right">
-              ↤↤↤↤↤ 𝐶𝑟𝑒𝑎𝑡𝑒 𝑠𝑡𝑢𝑛𝑛𝑖𝑛𝑔 𝑓𝑟𝑎𝑚𝑒𝑑 𝑎𝑣𝑎𝑡𝑎𝑟𝑠 𝑓𝑜𝑟 𝑦𝑜𝑢𝑟 𝐺𝑖𝑡𝐻𝑢𝑏 𝑝𝑟𝑜𝑓𝑖𝑙𝑒 𝑖𝑛
-              𝑠𝑒𝑐𝑜𝑛𝑑𝑠 ↦↦↦↦↦
+                Create stunning framed avatars for your GitHub profile in seconds
             </p>
           </div>
 
@@ -777,7 +776,7 @@ function App() {
           >
             <Users size={20} />
             <span style={{ fontFamily: "Times New Roman, serif" }}>
-              𝕆𝕡𝕖𝕟 ℂ𝕠𝕞𝕞𝕦𝕟𝕚𝕥𝕪
+              Open Community
             </span>
           </button>
         </div>
@@ -855,20 +854,7 @@ function App() {
                         {step.label}
                       </div>
                     </div>
-                    {idx < steps.length - 1 && (
-                      <ChevronRight
-                        size={20}
-                        color={
-                          currentStep > step.num
-                            ? colors.textPrimary
-                            : colors.borderInput
-                        }
-                        style={{
-                          marginTop: "-32px",
-                          flexShrink: 0,
-                        }}
-                      />
-                    )}
+
                   </React.Fragment>
                 );
               })}
@@ -966,7 +952,7 @@ function App() {
                   placeholder="Enter username (e.g., torvalds)"
                   style={{
                     width: "100%",
-                    padding: "12px 16px 12px 44px",
+                    padding: "12px 16px",
                     fontSize: "16px",
                     border: `1px solid ${colors.borderInput}`,
                     borderRadius: "8px",
@@ -1216,7 +1202,22 @@ function App() {
   </div>
     
             {/* Frame Style Control Group(Border Focus) */}
-            <div style={{marginBottom: "24px"}}>
+            <div
+              style={{
+                marginBottom: "24px",
+                transition: "all 0.3s",
+                cursor: "pointer",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)";
+                e.currentTarget.style.borderRadius = "8px";
+                e.currentTarget.style.padding = "8px";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "transparent";
+                e.currentTarget.style.borderRadius = "0";
+                e.currentTarget.style.padding = "0";
+              }}>
               <label
                 style={{
                   display: "block",
@@ -1225,8 +1226,8 @@ function App() {
                   color: colors.textPrimary,
                   marginBottom: "8px",
                 }}>
-                  Frame Style (Param : `style`)
-                </label>
+                Frame Style (Param : `style`)
+              </label>
                 <div style={{maxWidth: "fit-content"}}>
                 <div 
                   className='control-button-set'
@@ -1283,7 +1284,22 @@ function App() {
             </div>
 
             {/* Size Slider */}
-            <div style={{ marginBottom: "24px" }}>
+            <div
+              style={{
+                marginBottom: "24px",
+                transition: "all 0.3s",
+                cursor: "pointer",
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.background = isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)";
+                e.currentTarget.style.borderRadius = "8px";
+                e.currentTarget.style.padding = "8px";
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.background = "transparent";
+                e.currentTarget.style.borderRadius = "0";
+                e.currentTarget.style.padding = "0";
+              }}>
               <label
                 style={{
                   display: "block",
@@ -1322,7 +1338,22 @@ function App() {
 
             {/* Radius Slider (Conditional) */}
             {shape === "rect" && (
-              <div style={{ marginBottom: "24px" }}>
+              <div
+                style={{
+                  marginBottom: "24px",
+                  transition: "all 0.3s",
+                  cursor: "pointer",
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.background = isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)";
+                  e.currentTarget.style.borderRadius = "8px";
+                  e.currentTarget.style.padding = "8px";
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.background = "transparent";
+                  e.currentTarget.style.borderRadius = "0";
+                  e.currentTarget.style.padding = "0";
+                }}>
                 <label
                   style={{
                     display: "block",
@@ -1568,6 +1599,7 @@ function App() {
                   e.currentTarget.style.transform = "translateY(-2px)";
                   e.currentTarget.style.boxShadow =
                     "0 6px 12px -2px rgba(0, 0, 0, 0.2)";
+                  e.currentTarget.style.background = "linear-gradient(to right, #5b21b6, #7c3aed)";
                 }
               }}
               onMouseLeave={(e) => {
@@ -2061,14 +2093,8 @@ function App() {
             }
             
         }
-
-        /* Desktop Layout: Apply 50%/50% split above 769px */
-        @media (min-width: 769px) {
-            .main-grid-container {
-                grid-template-columns: 50% 50%; 
-            }
-        }
       `}</style>
+      {/* Community Modal */}
     </div>
   } />
   <Route path="*" element={<NotFound />} />
