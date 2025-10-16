@@ -268,8 +268,3 @@ https://github-avatar-frame-api.onrender.com/api/framed-avatar/octocat?theme=bas
 <li>🤝 Contribute new themes</li>
 <li>📢 Share with the community</li>
 </ul>
-
----
-
-<h2 style="color:#009688;">📜 License</h2>
-<p style="font-size:1.05em;">MIT License</p>
