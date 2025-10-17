@@ -804,12 +804,12 @@ function App() {
                 const isActive = currentStep >= step.num;
                 const Icon = step.icon;
 
-                const activeBg = isDark ? "#d1d5db" : colors.bgCard;
-                const activeBorder = isDark ? "#d1d5db" : "#111827";
-                const inactiveBg = isDark ? "#374151" : "#f3f4f6";
-                const inactiveBorder = isDark ? "#4b5563" : "#e5e7eb";
-                const activeColor = isDark ? "#111827" : "#111827";
-                const inactiveColor = isDark ? "#9ca3af" : "#9ca3af";
+                  const activeBg = "white"; 
+                  const inactiveBg = isDark ? "#374151" : "#f3f4f6";
+                  const activeColor = "#111827"; 
+                  const inactiveColor = "white";  
+                   const activeBorder = "#a855f7"; 
+                   const inactiveBorder = isDark ? "#4b5563" : "#e5e7eb";
 
                 return (
                   <React.Fragment key={step.num}>
@@ -823,22 +823,53 @@ function App() {
                       }}
                     >
                       <div
-                        style={{
-                          width: "48px",
-                          height: "48px",
-                          borderRadius: "50%",
-                          display: "flex",
-                          alignItems: "center",
-                          justifyContent: "center",
-                          marginBottom: "8px",
-                          transition: "all 0.3s",
-                          background: isActive ? activeBg : inactiveBg,
-                          color: isActive ? activeColor : inactiveColor,
-                          border: `2px solid ${
-                            isActive ? activeBorder : inactiveBorder
-                          }`,
-                        }}
-                      >
+
+                       onClick={() => {
+    const sectionIds = [
+      "#username-section",
+      "#theme-section",
+      "#settings-section",
+      "#generate-section",
+    ];
+    const targetId = sectionIds[idx];
+    const target = document.querySelector(targetId);
+    if (target) target.scrollIntoView({ behavior: "smooth" });
+  }}
+  style={{
+    width: "48px",
+    height: "48px",
+    borderRadius: "50%",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: "8px",
+    transition: "all 0.3s ease",
+    background: isActive ? activeBg : inactiveBg,
+    color: isActive ? activeColor : inactiveColor,
+    border: `2px solid ${
+      isActive ? activeBorder : inactiveBorder
+    }`,
+    cursor: "pointer",
+  }}
+  onMouseEnter={(e) => {
+    e.currentTarget.style.transform = "scale(1.1)";
+    e.currentTarget.style.boxShadow =
+      "0 0 10px rgba(168, 85, 247, 0.5)";
+       if (!isActive) {
+              e.currentTarget.style.background = "white"; 
+              e.currentTarget.style.color = "#111827"; 
+            }
+  }}
+  onMouseLeave={(e) => {
+    e.currentTarget.style.transform = "scale(1)";
+    e.currentTarget.style.boxShadow = "none";
+    if (!isActive) {
+              e.currentTarget.style.background = inactiveBg;
+              e.currentTarget.style.color = inactiveColor; 
+            }
+  }}
+>
+
                         <Icon size={20} />
                       </div>
                       <div
@@ -846,11 +877,13 @@ function App() {
                           fontSize: "12px",
                           fontWeight: "600",
                           textAlign: "center",
-                          color: isActive
-                            ? colors.textPrimary
-                            : colors.textSecondary,
-                        }}
-                      >
+
+                          // color: isActive ? activeColor : inactiveColor,
+                           color: isActive ? "white" : "#9ca3af"
+                        }}>
+
+                        
+
                         {step.label}
                       </div>
                     </div>
@@ -877,7 +910,7 @@ function App() {
           }}
         >
           {/* Left: Configuration Panel (50%) */}
-          <div data-aos="flip-right"
+          <div id="username-section" data-aos="flip-right"
             style={{
               background: colors.bgCard,
               borderRadius: "12px",
@@ -986,6 +1019,93 @@ function App() {
               </div>
             </div>
 
+
+            {/* Theme Selection (Small and Scrollable) */}
+            <div  id="theme-section" style={{ marginBottom: "24px" }}>
+              <label
+                style={{
+                  display: "block",
+                  fontSize: "14px",
+                  fontWeight: "600",
+                  color: colors.textPrimary,
+                  marginBottom: "8px",
+                }}>
+                Frame Theme ({themes.length} available)
+              </label>
+              {themesLoading ? (
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    padding: "32px 0",
+                  }}>
+                  <Loader2
+                    size={32}
+                    color={colors.accentPrimary}
+                    className='spinner'
+                  />
+                </div>
+              ) : (
+                <div
+                  className='themes-scroll-container'
+                  style={{
+                    display: "flex",
+                    gap: "8px",
+                    overflowX: "scroll",
+                    paddingBottom: "12px",
+                    whiteSpace: "nowrap",
+                  }}>
+                  {themes.map((theme) => (
+                    <button
+                      key={theme.theme}
+                      onClick={() => handleThemeSelect(theme.theme)}
+                      style={{
+                        padding: "8px 12px",
+                        minWidth: "100px",
+                        flexShrink: 0,
+                        borderRadius: "8px",
+                        border: "2px solid",
+                        borderColor:
+                          selectedTheme === theme.theme
+                            ? colors.accentPrimary
+                            : colors.border,
+                        background:
+                          selectedTheme === theme.theme
+                            ? isDark
+                              ? "#4c1d95"
+                              : "#f5f3ff"
+                            : colors.bgCard,
+                        cursor: "pointer",
+                        transition: "all 0.2s",
+                        textAlign: "center",
+                        boxShadow: "0 1px 3px rgba(0,0,0,0.05)",
+                        display: "flex",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        gap: "6px",
+                      }}>
+                      {selectedTheme === theme.theme && (
+                        <Zap
+                          size={14}
+                          color={colors.accentPrimary}
+                          fill={colors.accentPrimary}
+                        />
+                      )}
+                      <span
+                        style={{
+                          fontWeight: "600",
+                          fontSize: "13px",
+                          color: colors.textPrimary,
+                          textTransform: "capitalize",
+                        }}>
+                        {theme.name || theme.theme}
+                      </span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {/* Theme Selection Slider */}
             <ThemeSlider
             themes={themes}
@@ -996,8 +1116,9 @@ function App() {
             isDark={isDark}
             />
 
+
             {/* Custom Color Picker and Random Theme Generator */}
-            <div style={{ marginBottom: "24px" }}>
+            <div id="settings-section" style={{ marginBottom: "24px" }}>
               <label
                 style={{
                   display: "block",
@@ -1570,7 +1691,8 @@ function App() {
             </div>
 
             {/* Generate Button */}
-            <button
+          <div id="generate-section"> 
+             <button
               onClick={generateFramedAvatar}
               disabled={loading || !username.trim()}
               style={{
@@ -1619,9 +1741,9 @@ function App() {
                   Generate Framed Avatar
                 </>
               )}
-            </button>
+             </button>
 
-            {error && (
+             {error && (
               <div
                 className="error-shake"
                 style={{
@@ -1645,6 +1767,7 @@ function App() {
                 </div>
               </div>
             )}
+            </div>
           </div>
 
           {/* Right: Preview Panel (50%) */}
