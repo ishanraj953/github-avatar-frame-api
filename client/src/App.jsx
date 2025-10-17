@@ -418,6 +418,9 @@ function App() {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
+        if (response.status === 404 && errorData.error === "User not found") {
+          throw new Error("User not found — please check the spelling");
+        }
         throw new Error(
           errorData.error ||
             errorData.message ||
@@ -445,6 +448,7 @@ function App() {
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
+    setPreviewError(null); // Clear preview error when username changes
     if (e.target.value.trim()) {
       setCurrentStep(2);
     } else {
@@ -508,7 +512,12 @@ function App() {
   const fetchAvatar = async (username) => {
     const avatarUrl = `https://avatars.githubusercontent.com/${username}?size=${size}`;
     const response = await fetch(avatarUrl, { cache: 'no-cache' });
-    if (!response.ok) throw new Error('Avatar not found');
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error('User not found — please check the spelling');
+      }
+      throw new Error('Avatar not found');
+    }
     const blob = await response.blob();
     return createImageBitmap(blob);
   };
@@ -1656,24 +1665,48 @@ function App() {
             >
               {/* Preview Logic (Conditional) */}
               {loading ? (
-                <div style={{ textAlign: "center" }}>
-                  <Loader2
-                    size={64}
-                    color={colors.accentPrimary}
-                    strokeWidth={2.5}
-                    className="spinner"
-                  />
-                  <p
-                    className="pulse-text"
+                <div
+                  style={{
+                    textAlign: "center",
+                    position: "relative",
+                    padding: "40px",
+                    borderRadius: "16px",
+                    background: `linear-gradient(45deg, ${colors.accentPrimary}, ${colors.accentSecondary}, ${colors.accentPrimary})`,
+                    animation: "rotate-gradient 3s linear infinite",
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
                     style={{
-                      color: colors.textSecondary,
-                      fontWeight: "600",
-                      fontSize: "16px",
-                      marginTop: "16px",
+                      position: "absolute",
+                      inset: "4px",
+                      background: colors.bgCard,
+                      borderRadius: "12px",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: "20px",
                     }}
                   >
-                    Creating your framed avatar...
-                  </p>
+                    <Loader2
+                      size={64}
+                      color={colors.accentPrimary}
+                      strokeWidth={2.5}
+                      className="spinner pulse-spinner"
+                    />
+                    <p
+                      className="pulse-text"
+                      style={{
+                        color: colors.textSecondary,
+                        fontWeight: "600",
+                        fontSize: "16px",
+                        marginTop: "16px",
+                      }}
+                    >
+                      Creating your framed avatar...
+                    </p>
+                  </div>
                 </div>
               ) : framedAvatarUrl ? (
                 <div style={{ textAlign: "center", width: "100%" }}>
@@ -1992,8 +2025,11 @@ function App() {
         @keyframes pulse-anim { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
         @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes rotate-gradient { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes pulse-spinner { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
         .spinner { animation: spin 1s linear infinite; }
         .pulse-text { animation: pulse-anim 2s infinite; }
+        .pulse-spinner { animation: pulse-spinner 1.5s ease-in-out infinite; }
         .error-shake { animation: shake 0.4s ease-out; }
 
         /* Customizing the range slider thumb (using injected colors) */

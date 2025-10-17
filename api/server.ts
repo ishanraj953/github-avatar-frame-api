@@ -248,8 +248,7 @@ app.get("/api/framed-avatar/:username", async (req: Request, res: Response) => {
       return res.status(404).json({ error: `Theme '${theme}' not found.` });
     }
 
-    // --- MODIFICATION START ---
-    // Fetch avatar or use fallback if user not found
+    // Fetch avatar
     let avatarBuffer: Buffer;
     const avatarUrl = `https://github.com/${username}.png?size=${size}`;
 
@@ -265,25 +264,16 @@ app.get("/api/framed-avatar/:username", async (req: Request, res: Response) => {
       avatarBuffer = Buffer.from(avatarResponse.data);
     } catch (axiosError) {
       if (axios.isAxiosError(axiosError) && axiosError.response?.status === 404) {
-        // User not found, so we load the fallback placeholder image
-        const fallbackAvatarPath = path.join(
-          ASSET_BASE_PATH,
-          "public",
-          "not-found.png"
-        );
-        if (!fs.existsSync(fallbackAvatarPath)) {
-          console.error("Fallback avatar not-found.png is missing!");
-          return res
-            .status(500)
-            .json({ error: "Internal Server Error: Fallback image is missing." });
-        }
-        avatarBuffer = fs.readFileSync(fallbackAvatarPath);
+        // User not found, return error instead of fallback
+        return res.status(404).json({
+          error: "User not found",
+          message: "The GitHub user does not exist. Please check the spelling and try again."
+        });
       } else {
         // For other network errors, let the outer catch block handle it
         throw axiosError;
       }
     }
-    // --- MODIFICATION END ---
 
     // Load frame
     const frameBuffer = fs.readFileSync(framePath);
