@@ -109,7 +109,9 @@ https://github-avatar-frame-api.onrender.com/api/framed-avatar/{username}?theme=
  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
 <h2 style="color:#3f51b5;">🧭 Flowchart</h2>
-<img width="957" height="2844" alt="Untitled diagram-2025-10-14-005556" src="https://github.com/user-attachments/assets/fd49b6b8-07b3-4fa6-ab66-48cc40eb0c38" />
+<div align=center>
+ <img width="360" height="600" alt="Untitled diagram-2025-10-14-005556" src="https://github.com/user-attachments/assets/fd49b6b8-07b3-4fa6-ab66-48cc40eb0c38"  />
+</div>
 
 <h3 style="color:#009688;" align=center>🧮 Query Parameters:</h3>
 <div align=center>
