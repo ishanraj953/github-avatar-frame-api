@@ -221,6 +221,9 @@ function App() {
   const [emojiSize, setEmojiSize] = useState(40);
   const [emojiPosition, setEmojiPosition] = useState("top");
 
+  // Download format state
+  const [downloadFormat, setDownloadFormat] = useState("png");
+
   const [loading, setLoading] = useState(false);
   const [themesLoading, setThemesLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -331,7 +334,7 @@ function App() {
     if (framedAvatarUrl) {
       const link = document.createElement("a");
       link.href = framedAvatarUrl;
-      link.download = `github-avatar-frame-${username}.png`;
+      link.download = `github-avatar-frame-${username}.${downloadFormat}`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -386,18 +389,18 @@ function App() {
     try {
       const finalRadius = shape === "circle" ? maxRadius : radius;
 
-      let url = `${API_BASE_URL}/api/framed-avatar/${username}?theme=${selectedTheme}&size=${size}&canvas=${canvas}&shape=${shape}&radius=${finalRadius}&style=${frameStyle}`;
-      
+      let url = `${API_BASE_URL}/api/framed-avatar/${username}?theme=${selectedTheme}&size=${size}&canvas=${canvas}&shape=${shape}&radius=${finalRadius}&style=${frameStyle}&format=${downloadFormat}`;
+
       // Add custom accent color if selected
       if (customAccentColor) {
         url += `&accentColor=${encodeURIComponent(customAccentColor)}`;
       }
-      
+
       // Add text parameters if provided
       if (text.trim()) {
         url += `&text=${encodeURIComponent(text)}&textColor=${encodeURIComponent(textColor)}&textSize=${textSize}&textPosition=${textPosition}`;
       }
-      
+
       // Add emoji parameters if provided
       if (emojis.trim()) {
         url += `&emojis=${encodeURIComponent(emojis)}&emojiSize=${emojiSize}&emojiPosition=${emojiPosition}`;
@@ -415,6 +418,9 @@ function App() {
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
+        if (response.status === 404 && errorData.error === "User not found") {
+          throw new Error("User not found — please check the spelling");
+        }
         throw new Error(
           errorData.error ||
             errorData.message ||
@@ -442,6 +448,7 @@ function App() {
 
   const handleUsernameChange = (e) => {
     setUsername(e.target.value);
+    setPreviewError(null); // Clear preview error when username changes
     if (e.target.value.trim()) {
       setCurrentStep(2);
     } else {
@@ -505,7 +512,12 @@ function App() {
   const fetchAvatar = async (username) => {
     const avatarUrl = `https://avatars.githubusercontent.com/${username}?size=${size}`;
     const response = await fetch(avatarUrl, { cache: 'no-cache' });
-    if (!response.ok) throw new Error('Avatar not found');
+    if (!response.ok) {
+      if (response.status === 404) {
+        throw new Error('User not found — please check the spelling');
+      }
+      throw new Error('Avatar not found');
+    }
     const blob = await response.blob();
     return createImageBitmap(blob);
   };
@@ -1322,52 +1334,7 @@ function App() {
       </div>
   </div>
     
-            {/* Frame Style Control Group(Border Focus) */}
-            <div
-              style={{
-                marginBottom: "24px",
-                transition: "all 0.3s",
-                cursor: "pointer",
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.background = isDark ? "rgba(255,255,255,0.05)" : "rgba(0,0,0,0.05)";
-                e.currentTarget.style.borderRadius = "8px";
-                e.currentTarget.style.padding = "8px";
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.background = "transparent";
-                e.currentTarget.style.borderRadius = "0";
-                e.currentTarget.style.padding = "0";
-              }}>
-              <label
-                style={{
-                  display: "block",
-                  fontSize: "14px",
-                  fontWeight: "600",
-                  color: colors.textPrimary,
-                  marginBottom: "8px",
-                }}>
-                Frame Style (Param : `style`)
-              </label>
-                <div style={{maxWidth: "fit-content"}}>
-                <div 
-                  className='control-button-set'
-                  style={{display: "flex", gap: "12px"}}>
-                    <ControlButton
-                    onClick={() => setFrameStyle("default")}
-                    isSelected={frameStyle === "default"}
-                    isDark={isDark}>
-                      Default
-                  </ControlButton>
-                  <ControlButton
-                    onClick={() => setFrameStyle("border-focus")}
-                    isSelected={frameStyle === "border-focus"}
-                    isDark={isDark}>
-                    Border Focus
-                  </ControlButton>
-                  </div>
-            </div>
-            </div>
+
             {/* Frame Style Control Group(Border Focus) */}
             <div style={{ marginBottom: "24px" }}>
               <label
@@ -1821,24 +1788,48 @@ function App() {
             >
               {/* Preview Logic (Conditional) */}
               {loading ? (
-                <div style={{ textAlign: "center" }}>
-                  <Loader2
-                    size={64}
-                    color={colors.accentPrimary}
-                    strokeWidth={2.5}
-                    className="spinner"
-                  />
-                  <p
-                    className="pulse-text"
+                <div
+                  style={{
+                    textAlign: "center",
+                    position: "relative",
+                    padding: "40px",
+                    borderRadius: "16px",
+                    background: `linear-gradient(45deg, ${colors.accentPrimary}, ${colors.accentSecondary}, ${colors.accentPrimary})`,
+                    animation: "rotate-gradient 3s linear infinite",
+                    overflow: "hidden",
+                  }}
+                >
+                  <div
                     style={{
-                      color: colors.textSecondary,
-                      fontWeight: "600",
-                      fontSize: "16px",
-                      marginTop: "16px",
+                      position: "absolute",
+                      inset: "4px",
+                      background: colors.bgCard,
+                      borderRadius: "12px",
+                      display: "flex",
+                      flexDirection: "column",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      padding: "20px",
                     }}
                   >
-                    Creating your framed avatar...
-                  </p>
+                    <Loader2
+                      size={64}
+                      color={colors.accentPrimary}
+                      strokeWidth={2.5}
+                      className="spinner pulse-spinner"
+                    />
+                    <p
+                      className="pulse-text"
+                      style={{
+                        color: colors.textSecondary,
+                        fontWeight: "600",
+                        fontSize: "16px",
+                        marginTop: "16px",
+                      }}
+                    >
+                      Creating your framed avatar...
+                    </p>
+                  </div>
                 </div>
               ) : framedAvatarUrl ? (
                 <div style={{ textAlign: "center", width: "100%" }}>
@@ -1872,32 +1863,60 @@ function App() {
                       margin: "0 auto",
                     }}
                   >
-                    <button
-                      onClick={downloadImage}
+                    <div
                       style={{
-                        width: "100%",
-                        background:
-                          "linear-gradient(to right, #16a34a, #059669)",
-                        color: "white",
-                        padding: "14px",
-                        borderRadius: "8px",
-                        border: "none",
-                        fontWeight: "600",
-                        fontSize: "16px",
-                        cursor: "pointer",
-                        transition: "all 0.2s",
                         display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        gap: "8px",
+                        gap: "12px",
                         marginBottom: "12px",
-                        boxShadow:
-                          "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)",
                       }}
                     >
-                      <Download size={20} />
-                      Download Image
-                    </button>
+                      <select
+                        value={downloadFormat}
+                        onChange={(e) => setDownloadFormat(e.target.value)}
+                        style={{
+                          flex: 1,
+                          padding: "12px",
+                          borderRadius: "8px",
+                          border: `2px solid ${colors.border}`,
+                          background: colors.bgInput,
+                          color: colors.textPrimary,
+                          fontSize: "14px",
+                          fontWeight: "500",
+                          outline: "none",
+                          cursor: "pointer",
+                          transition: "border-color 0.2s",
+                        }}
+                      >
+                        <option value="png">PNG</option>
+                        <option value="jpg">JPG</option>
+                        <option value="svg">SVG</option>
+                      </select>
+                      <button
+                        onClick={downloadImage}
+                        style={{
+                          flex: 1,
+                          background:
+                            "linear-gradient(to right, #16a34a, #059669)",
+                          color: "white",
+                          padding: "12px",
+                          borderRadius: "8px",
+                          border: "none",
+                          fontWeight: "600",
+                          fontSize: "14px",
+                          cursor: "pointer",
+                          transition: "all 0.2s",
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          gap: "8px",
+                          boxShadow:
+                            "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1)",
+                        }}
+                      >
+                        <Download size={18} />
+                        Download
+                      </button>
+                    </div>
 
                     {/* API URL Section (Monospace Font Applied Here) */}
                     <div
@@ -2129,8 +2148,11 @@ function App() {
         @keyframes pulse-anim { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
         @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }
         @keyframes slideInRight { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+        @keyframes rotate-gradient { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        @keyframes pulse-spinner { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.1); } }
         .spinner { animation: spin 1s linear infinite; }
         .pulse-text { animation: pulse-anim 2s infinite; }
+        .pulse-spinner { animation: pulse-spinner 1.5s ease-in-out infinite; }
         .error-shake { animation: shake 0.4s ease-out; }
 
         /* Customizing the range slider thumb (using injected colors) */
