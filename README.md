@@ -84,6 +84,60 @@ A free and open-source API to frame your GitHub avatar using creative themes. Pe
 
 <br>
  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+
+ ## ⚙️ Setup & Local Development
+
+Follow these steps to run the GitHub Avatar Frame API locally for development or testing:
+
+### 🧩 Prerequisites
+- 🟢 Node.js 16+ and npm installed
+- 🐙 Git for version control
+- 🖥️ Code editor (VS Code recommended)
+- 📦 Optional: TypeScript knowledge for contributing
+
+### 💻 Steps
+### 1. Clone the Repository
+```bash
+git clone https://github.com/TechQuanta/github-avatar-frame-api.git
+cd github-avatar-frame-api
+```
+
+### 2. Install Backend Dependencies
+```bash
+npm install
+```
+
+### 3. Setup Frontend
+```bash
+cd client
+npm install
+cd ..
+```
+
+## Running the Application
+
+### Start Backend (Terminal 1)
+```bash
+npm run dev
+```
+
+The backend will start on `http://localhost:3000`
+
+### Start Frontend (Terminal 2)
+```bash
+cd client
+npm run dev
+```
+
+The frontend will start on `http://localhost:5173` (or another port if 5173 is in use)
+
+## Verify Everything Works
+
+1. Open your browser and go to `http://localhost:5173`
+2. You should see the GitHub Avatar Frames interface
+3. Enter a GitHub username (e.g., "torvalds")
+4. Select a theme and click "Generate"
+5. If successful, your framed avatar will appear
  
 <h2 style="color:#ff5722;">💡 Why GitHub Avatar Frame API?</h2>
 <p style="font-size: 1.1em;">
