@@ -24,27 +24,10 @@
  <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
 <br>
-<h2 style="color:#ff5722;">✨ Vision</h2>
-<p style="font-size: 1.1em;">
-Democratize creative avatar customization by providing a free, open-source API that transforms GitHub profiles into engaging visual experiences for developers worldwide.
-</p>
 
- <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+# 🖼️ GitHub Avatar Frame API
 
-<h2 style="color:#ff5722;">🎯 Mission</h2>
-<p style="font-size: 1.1em;">
-<ul>
- <li>🏗️ Build the most comprehensive and user-friendly avatar framing API</li>
-<li>💪 Empower developers to personalize their GitHub presence with minimal effort</li>
-<li>🎨 Foster creative expression through customizable themes, text, and emoji overlays</li>
-<li>🆓 Maintain a free, accessible service that supports the open-source community</li>
-</ul>
-</p>
-
- <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
-
-<h2 align="center" style="color:#ff5722;">📊 Project Insights</h2>
-
+<!-- ✅ (2) Added modern badges for repo stats instead of the old table -->
 <table align="center" style="width: 90%; border-collapse: collapse; font-size: 0.95em;">
 <thead>
 <tr style="background-color:#f5f5f5; text-align:center;">
@@ -71,6 +54,39 @@ Democratize creative avatar customization by providing a free, open-source API t
 </table>
 
 <br><hr><br>
+
+## 📚 Table of Contents
+- [✨ Vision](#-vision)
+- [🎯 Mission](#-mission)
+- [⚙️ Setup & Local Development](#️-setup--local-development)
+- [📂 Project Structure](#-project-structure)
+- [📌 API Usage](#-api-usage)
+- [🧮 Query Parameters](#-query-parameters)
+- [💡 Why GitHub Avatar Frame API?](#-why-github-avatar-frame-api)
+- [🤝 Contributing](#-contributing)
+- [🛠️ Troubleshooting](#️-troubleshooting)
+- [📜 License](#-license)
+
+---
+
+## ✨ Vision
+<p style="font-size: 1.1em;">
+Democratize creative avatar customization by providing a free, open-source API that transforms GitHub profiles into engaging visual experiences for developers worldwide.
+</p>
+
+ <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
+
+<h2 style="color:#ff5722;">🎯 Mission</h2>
+<p style="font-size: 1.1em;">
+<ul>
+ <li>🏗️ Build the most comprehensive and user-friendly avatar framing API</li>
+<li>💪 Empower developers to personalize their GitHub presence with minimal effort</li>
+<li>🎨 Foster creative expression through customizable themes, text, and emoji overlays</li>
+<li>🆓 Maintain a free, accessible service that supports the open-source community</li>
+</ul>
+</p>
+
+ <img src="https://user-images.githubusercontent.com/74038190/212284100-561aa473-3905-4a80-b561-0d28506553ee.gif" width="100%">
 
 <h2 style="color:#673ab7;">🎨 About GitHub Avatar Frame API</h2>
 
@@ -138,6 +154,46 @@ The frontend will start on `http://localhost:5173` (or another port if 5173 is i
 3. Enter a GitHub username (e.g., "torvalds")
 4. Select a theme and click "Generate"
 5. If successful, your framed avatar will appear
+
+---
+
+## 📂 Project Structure
+
+```
+📦 github-avatar-frame-api
+├── 🖥️ api
+│   ├── 📄 FRAMETHEMES.md
+│   ├── 🖼️ collage.js
+│   ├── 🖼️ frames.js
+│   ├── 🚀 server.ts
+│   └── 🎨 themes.js
+├── 🌐 client
+│   ├── src
+│   │   ├── components
+│   │   │   └── 🧩 ThemeSlider.jsx
+│   │   ├── pages
+│   │   │   └── 📄 NotFound.jsx
+│   │   ├── 🎨 App.css
+│   │   ├── 📄 App.jsx
+│   │   ├── 🎨 index.css
+│   │   └── 🚀 main.jsx
+│   ├── 📄 index.html
+│   ├── ⚡ vite.config.js
+│   └── 🌍 vercel.json
+├── 🖼️ public
+│   └── assets
+│       └── 🖼️ gssoc.png
+├── 📄 README.md
+├── 📄 LICENSE
+├── 📄 CODE_OF_CONDUCT.md
+├── 📄 CONTRIBUTING.md
+├── 📄 CUSTOMIZATION_FEATURE.md
+├── 📝 TODO.md
+├── 📦 package.json
+├── ⚙️ render.yml
+└── 📄 tsconfig.server.json
+```
+---
  
 <h2 style="color:#ff5722;">💡 Why GitHub Avatar Frame API?</h2>
 <p style="font-size: 1.1em;">
